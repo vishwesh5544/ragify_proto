@@ -13,7 +13,7 @@ It serves as the central contract between the Node.js API gateway and the Python
 ```proto
 syntax = "proto3";
 
-package rag;
+package ragify;
 
 service RAGProcessor {
   rpc ParseAndEmbed (PDFRequest) returns (EmbeddingResponse);
