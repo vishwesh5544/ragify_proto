@@ -1,28 +1,49 @@
+// Specifies proto3 syntax which is the latest version of Protocol Buffers
 syntax = "proto3";
 
+// Defines the namespace for all messages and services
 package ragify;
 
+// RAGProcessor service provides methods for processing documents and answering queries
+// using Retrieval Augmented Generation (RAG) techniques
 service RAGProcessor {
+  // ParseAndEmbed processes a PDF document and creates embeddings for its content
+  // Returns document and chunk identifiers for future reference
   rpc ParseAndEmbed (PDFRequest) returns (EmbeddingResponse);
+
+  // AnswerQuery takes a question about a previously processed document
+  // Returns an AI-generated answer with relevant source references
   rpc AnswerQuery (RAGQueryRequest) returns (RAGResponse);
 }
 
+// Request message for uploading a PDF document for processing
 message PDFRequest {
+  // Name of the PDF file being uploaded
   string filename = 1;
+  // Binary content of the PDF file
   bytes content = 2;
 }
 
+// Response message after processing and embedding a document
 message EmbeddingResponse {
+  // Unique identifier assigned to the processed document
   string document_id = 1;
+  // List of identifiers for individual chunks/sections of the document
   repeated string chunk_ids = 2;
 }
 
+// Request message for querying information from a processed document
 message RAGQueryRequest {
+  // ID of the document to query against, obtained from EmbeddingResponse
   string document_id = 1;
+  // The natural language question to be answered
   string question = 2;
 }
 
+// Response message containing the answer to a RAG query
 message RAGResponse {
+  // AI-generated answer to the question
   string answer = 1;
+  // List of relevant source references from the document
   repeated string sources = 2;
 }
