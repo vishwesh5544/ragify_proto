@@ -1,0 +1,28 @@
+syntax = "proto3";
+
+package ragify;
+
+service RAGProcessor {
+  rpc ParseAndEmbed (PDFRequest) returns (EmbeddingResponse);
+  rpc AnswerQuery (RAGQueryRequest) returns (RAGResponse);
+}
+
+message PDFRequest {
+  string filename = 1;
+  bytes content = 2;
+}
+
+message EmbeddingResponse {
+  string document_id = 1;
+  repeated string chunk_ids = 2;
+}
+
+message RAGQueryRequest {
+  string document_id = 1;
+  string question = 2;
+}
+
+message RAGResponse {
+  string answer = 1;
+  repeated string sources = 2;
+}
